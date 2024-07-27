@@ -21,10 +21,10 @@ import { RouterLink } from 'vue-router'
                 </RouterLink>
                 <!-- <RouterLink :to="{ name: 'create' }" class="cursor-pointer">
                     Create
-                </RouterLink>
+                </RouterLink> -->
                 <RouterLink :to="{ name: 'login' }" class="cursor-pointer">
                     Login
-                </RouterLink> -->
+                </RouterLink>
                 <li class="cursor-pointer">Logout</li>
             </ul>
         </nav>
