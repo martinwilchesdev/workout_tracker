@@ -24,9 +24,8 @@ const register = async () => {
             toast.success('User created successfully', { timeout: 2500 })
             router.push({ name: 'login' })
         } catch (error) {
-            toast.error(error.message || 'User could not be created', {
-                timeout: 2500,
-            })
+            console.log(error)
+            toast.error(error.message, { timeout: 2500 })
         }
         return
     } else {
@@ -36,7 +35,7 @@ const register = async () => {
 </script>
 
 <template>
-    <div class="max-2-screen-sm mx-auto px-4 py-10">
+    <div class="max-w-screen-sm mx-auto px-4 py-10">
         <form
             class="p-8 flex flex-col bg-light-grey rounded-md shadow-lg"
             @submit.prevent="register"
@@ -52,6 +51,7 @@ const register = async () => {
                 <input
                     type="email"
                     class="p-2 text-gray-500 focus:outline-none"
+                    autocomplete="off"
                     id="email"
                     v-model.trim="email"
                     required
@@ -65,6 +65,7 @@ const register = async () => {
                 <input
                     type="password"
                     class="p-2 text-gray-500 focus:outline-none"
+                    autocomplete="off"
                     id="password"
                     v-model.trim="password"
                     required
@@ -78,6 +79,7 @@ const register = async () => {
                 <input
                     type="password"
                     class="p-2 text-gray-500 focus:outline-none"
+                    autocomplete="off"
                     id="confirmPassword"
                     v-model.trim="confirmPassword"
                     required

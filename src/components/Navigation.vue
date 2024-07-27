@@ -1,5 +1,25 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { supabase } from '@/supabase/supabase'
+import { computed } from 'vue'
+
+import store from '@/stores/index'
+
+const router = useRouter()
+
+const logout = async () => {
+    try {
+        const { error } = await supabase.auth.signOut()
+
+        if (error) throw error
+
+        router.push({ name: 'login' })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+const user = computed(() => store.state.user)
 </script>
 
 <template>
@@ -16,16 +36,30 @@ import { RouterLink } from 'vue-router'
                 <h1 class="text-xl">Active Tracker</h1>
             </div>
             <ul class="flex flex-1 gap-x-10 justify-end">
-                <RouterLink :to="{ name: 'home' }" class="cursor-pointer">
+                <RouterLink
+                    v-if="user"
+                    :to="{ name: 'home' }"
+                    class="cursor-pointer"
+                >
                     Home
                 </RouterLink>
-                <!-- <RouterLink :to="{ name: 'create' }" class="cursor-pointer">
+                <RouterLink
+                    v-if="user"
+                    :to="{ name: 'create' }"
+                    class="cursor-pointer"
+                >
                     Create
-                </RouterLink> -->
-                <RouterLink :to="{ name: 'login' }" class="cursor-pointer">
+                </RouterLink>
+                <RouterLink
+                    v-if="!user"
+                    :to="{ name: 'login' }"
+                    class="cursor-pointer"
+                >
                     Login
                 </RouterLink>
-                <li class="cursor-pointer">Logout</li>
+                <li v-if="user" class="cursor-pointer" @click="logout">
+                    Logout
+                </li>
             </ul>
         </nav>
     </header>
