@@ -1,6 +1,9 @@
 <script setup>
+import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
 import { uid } from 'uid'
+
+const toast = useToast()
 
 const exercises = ref([])
 const workoutName = ref('')
@@ -26,6 +29,15 @@ const onAddExercise = () => {
         duration: '',
         pace: '',
     })
+}
+
+const onDeleteExercise = (id) => {
+    if (exercises.value.length > 1) {
+        exercises.value = exercises.value.filter((exercise) => exercise.id !== id)
+        return
+    }
+
+    toast.warning('Exercise cannot be deleted', { timeout: 2500 })
 }
 
 const onChangeWorkout = () => {
@@ -146,6 +158,7 @@ const onChangeWorkout = () => {
                             src="@/assets/images/trash-light-green.png"
                             class="h-4 w-auto absolute -left-5 cursor-pointer"
                             alt="Delete"
+                            @click="onDeleteExercise(item.id)"
                         />
                     </div>
                     <button
@@ -231,6 +244,7 @@ const onChangeWorkout = () => {
                             src="@/assets/images/trash-light-green.png"
                             class="h-4 w-auto absolute -left-5 cursor-pointer"
                             alt="Delete"
+                            @click="onDeleteExercise(item.id)"
                         />
                     </div>
                     <button
