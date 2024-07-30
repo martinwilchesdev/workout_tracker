@@ -1,4 +1,5 @@
 <script setup>
+import { supabase } from '@/supabase/supabase'
 import { useToast } from 'vue-toastification'
 import { computed, ref } from 'vue'
 import { uid } from 'uid'
@@ -14,7 +15,7 @@ const onAddExercise = () => {
         for (const exercise in lastExercise.value) {
             if (lastExercise.value[exercise].trim() === '') {
                 toast.warning('Exercise cannot be empty', {
-                    timeout: 2500
+                    timeout: 2500,
                 })
 
                 return
@@ -54,6 +55,20 @@ const onDeleteExercise = (id) => {
     toast.warning('Exercise cannot be deleted', { timeout: 2500 })
 }
 
+const onSaveWorkout = async () => {
+    try {
+        const { error } = await supabase.from('workouts').insert({
+            workout_name: workoutName.value,
+            workout_type: workoutType.value,
+            exercises: exercises.value,
+        })
+
+        console.log(error)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const onChangeWorkout = () => {
     exercises.value = []
     onAddExercise()
@@ -73,7 +88,10 @@ const lastExercise = computed(() => {
 <template>
     <div class="max-w-screen-md mx-auto px-4 py-10">
         <div class="p-8 flex items-start bg-light-grey rounded-md shadow-lg">
-            <form @submit.prevent="" class="flex flex-col gap-y-5 w-full">
+            <form
+                @submit.prevent="onSaveWorkout"
+                class="flex flex-col gap-y-5 w-full"
+            >
                 <h1 class="text-2xl text-at-light-green">Record Workout</h1>
                 <!-- Workout name -->
                 <div class="flex flex-col">
