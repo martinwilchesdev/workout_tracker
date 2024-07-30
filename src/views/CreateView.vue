@@ -1,6 +1,6 @@
 <script setup>
 import { useToast } from 'vue-toastification'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { uid } from 'uid'
 
 const toast = useToast()
@@ -10,13 +10,25 @@ const workoutName = ref('')
 const workoutType = ref('select-workout')
 
 const onAddExercise = () => {
+    if (lastExercise.value) {
+        for (const exercise in lastExercise.value) {
+            if (lastExercise.value[exercise].trim() === '') {
+                toast.warning('Exercise cannot be empty', {
+                    timeout: 2500
+                })
+
+                return
+            }
+        }
+    }
+
     if (workoutType.value === 'strength') {
         exercises.value.push({
             id: uid(),
             exercise: '',
+            weight: '',
             sets: '',
             reps: '',
-            weight: '',
         })
 
         return
@@ -33,7 +45,9 @@ const onAddExercise = () => {
 
 const onDeleteExercise = (id) => {
     if (exercises.value.length > 1) {
-        exercises.value = exercises.value.filter((exercise) => exercise.id !== id)
+        exercises.value = exercises.value.filter(
+            (exercise) => exercise.id !== id
+        )
         return
     }
 
@@ -44,6 +58,16 @@ const onChangeWorkout = () => {
     exercises.value = []
     onAddExercise()
 }
+
+const lastExercise = computed(() => {
+    const exercise = exercises.value[exercises.value.length - 1]
+    if (exercise) {
+        delete exercise.id
+        return exercise
+    }
+
+    return null
+})
 </script>
 
 <template>
@@ -120,7 +144,7 @@ const onChangeWorkout = () => {
                                 type="text"
                                 id="sets"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
-                                v-model="item.set"
+                                v-model="item.sets"
                                 required
                             />
                         </div>
