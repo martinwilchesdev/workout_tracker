@@ -63,9 +63,19 @@ const onSaveWorkout = async () => {
             exercises: exercises.value,
         })
 
-        console.log(error)
+        if (error) throw error
+
+        toast.success('Workout created successfully', {
+            timeout: 2500,
+        })
+
+        exercises.value = []
+        workoutName.value = ''
+        workoutType.value = 'select-workout'
     } catch (error) {
-        console.log(error)
+        toast.error(`${error.message}`, {
+            timeout: 2500,
+        })
     }
 }
 
@@ -102,6 +112,7 @@ const lastExercise = computed(() => {
                     >
                     <input
                         type="text"
+                        autocomplete="off"
                         class="p-2 text-gray-500 focus:outline-none"
                         id="workout-name"
                         v-model.trim="workoutName"
@@ -146,6 +157,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="exercise-name"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.exercise"
                                 required
@@ -161,6 +173,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="sets"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.sets"
                                 required
@@ -176,6 +189,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="reps"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.reps"
                                 required
@@ -191,6 +205,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="weight"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.weight"
                                 required
@@ -247,6 +262,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="distance"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.distance"
                                 required
@@ -262,6 +278,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="duration"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.duration"
                                 required
@@ -277,6 +294,7 @@ const lastExercise = computed(() => {
                             <input
                                 type="text"
                                 id="pace"
+                                autocomplete="off"
                                 class="p-2 w-full text-gray-500 focus:outline-none"
                                 v-model="item.pace"
                                 required
@@ -300,6 +318,7 @@ const lastExercise = computed(() => {
                 <button
                     type="submit"
                     class="py-1 px-2 text-sm bg-at-light-green text-white rounded-sm duration-200 border-solid border-2 border-transparent hover:bg-white hover:text-at-light-green hover:border-at-light-green"
+                    v-if="workoutType !== 'select-workout'"
                 >
                     Record Workout
                 </button>
