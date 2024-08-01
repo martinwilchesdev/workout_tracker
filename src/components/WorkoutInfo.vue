@@ -71,7 +71,9 @@ const deleteExercise = () => {}
                 v-model="props.workout.workout_name"
                 required
             />
-            <h1 v-else class="text-at-light-green text-2xl text-center">{{ props.workout.workout_name }}</h1>
+            <h1 v-else class="text-at-light-green text-2xl text-center">
+                {{ props.workout.workout_name }}
+            </h1>
         </div>
     </div>
 </template>
