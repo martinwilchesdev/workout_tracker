@@ -18,7 +18,7 @@ const props = defineProps({
     >
         <!-- Cardio Image -->
         <img
-            v-if="workout.type === 'cardio'"
+            v-if="workout.workout_type === 'cardio'"
             src="@/assets/images/running-light-green.png"
             class="h-24 w-auto"
             alt=""

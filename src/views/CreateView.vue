@@ -10,7 +10,7 @@ const exercises = ref([])
 const workoutName = ref('')
 const workoutType = ref('select-workout')
 
-const onAddExercise = () => {
+const addExercise = () => {
     if (lastExercise.value) {
         for (const exercise in lastExercise.value) {
             if (lastExercise.value[exercise].trim() === '') {
@@ -44,7 +44,7 @@ const onAddExercise = () => {
     })
 }
 
-const onDeleteExercise = (id) => {
+const deleteExercise = (id) => {
     if (exercises.value.length > 1) {
         exercises.value = exercises.value.filter(
             (exercise) => exercise.id !== id
@@ -55,7 +55,7 @@ const onDeleteExercise = (id) => {
     toast.warning('Exercise cannot be deleted', { timeout: 2500 })
 }
 
-const onSaveWorkout = async () => {
+const saveWorkout = async () => {
     try {
         const { error } = await supabase.from('workouts').insert({
             workout_name: workoutName.value,
@@ -79,9 +79,9 @@ const onSaveWorkout = async () => {
     }
 }
 
-const onChangeWorkout = () => {
+const changeWorkout = () => {
     exercises.value = []
-    onAddExercise()
+    addExercise()
 }
 
 const lastExercise = computed(() => {
@@ -99,7 +99,7 @@ const lastExercise = computed(() => {
     <div class="max-w-screen-md mx-auto px-4 py-10">
         <div class="p-8 flex items-start bg-light-grey rounded-md shadow-lg">
             <form
-                @submit.prevent="onSaveWorkout"
+                @submit.prevent="saveWorkout"
                 class="flex flex-col gap-y-5 w-full"
             >
                 <h1 class="text-2xl text-at-light-green">Record Workout</h1>
@@ -130,7 +130,7 @@ const lastExercise = computed(() => {
                         id="workout-type"
                         class="p-2 text-gray-500 focus:outline-none"
                         v-model="workoutType"
-                        @change="onChangeWorkout"
+                        @change="changeWorkout"
                         required
                     >
                         <option value="select-workout">Select Workout</option>
@@ -215,13 +215,13 @@ const lastExercise = computed(() => {
                             src="@/assets/images/trash-light-green.png"
                             class="h-4 w-auto absolute -left-5 cursor-pointer"
                             alt="Delete"
-                            @click="onDeleteExercise(item.id)"
+                            @click="deleteExercise(item.id)"
                         />
                     </div>
                     <button
                         type="button"
                         class="py-1 px-2 text-sm bg-at-light-green text-white rounded-sm duration-200 border-solid border-2 border-transparent hover:bg-white hover:text-at-light-green hover:border-at-light-green"
-                        @click="onAddExercise"
+                        @click="addExercise"
                     >
                         Add Exercise
                     </button>
@@ -304,13 +304,13 @@ const lastExercise = computed(() => {
                             src="@/assets/images/trash-light-green.png"
                             class="h-4 w-auto absolute -left-5 cursor-pointer"
                             alt="Delete"
-                            @click="onDeleteExercise(item.id)"
+                            @click="deleteExercise(item.id)"
                         />
                     </div>
                     <button
                         type="button"
                         class="py-1 px-2 text-sm bg-at-light-green text-white rounded-sm duration-200 border-solid border-2 border-transparent hover:bg-white hover:text-at-light-green hover:border-at-light-green"
-                        @click="onAddExercise"
+                        @click="addExercise"
                     >
                         Add Exercise
                     </button>

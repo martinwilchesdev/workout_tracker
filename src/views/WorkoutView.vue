@@ -1,5 +1,6 @@
 <script setup>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import WorkoutInfo from '@/components/WorkoutInfo.vue'
 import { supabase } from '@/supabase/supabase'
 import { useToast } from 'vue-toastification'
 import { useRoute } from 'vue-router'
@@ -19,6 +20,7 @@ onMounted(async () => {
             .from('workouts')
             .select('*')
             .eq('id', currentId)
+            .single()
 
         if (error) throw error
 
@@ -36,6 +38,9 @@ onMounted(async () => {
     <div>
         <div class="container px-4 mt-10 text-center" v-if="loading">
             <PulseLoader />
+        </div>
+        <div v-else class="max-w-screen-sm mx-auto px-4 py-10">
+            <WorkoutInfo :workout="data" />
         </div>
     </div>
 </template>
