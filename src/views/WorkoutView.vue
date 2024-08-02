@@ -14,7 +14,15 @@ const loading = ref(true)
 
 const currentId = route.params.id
 
-onMounted(async () => {
+const deleteExercise = (index) => {
+    if (data.value.exercises.lenght > 1) {
+        data.value.exercises.splice(index, 1)
+    } else {
+        toast.warning('Exercise cannot be deleted', { timeout: 2500 })
+    }
+}
+
+const getData = async () => {
     try {
         const { data: workout, error } = await supabase
             .from('workouts')
@@ -31,6 +39,10 @@ onMounted(async () => {
             timeout: 2500,
         })
     }
+}
+
+onMounted(() => {
+    getData()
 })
 </script>
 
@@ -40,7 +52,11 @@ onMounted(async () => {
             <PulseLoader />
         </div>
         <div v-else class="max-w-screen-sm mx-auto px-4 py-10">
-            <WorkoutInfo :workout="data" />
+            <WorkoutInfo
+                :workout="data"
+                @deleteExercise="deleteExercise"
+                @getData="getData"
+            />
         </div>
     </div>
 </template>
