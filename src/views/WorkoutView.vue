@@ -1,13 +1,14 @@
 <script setup>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import WorkoutInfo from '@/components/WorkoutInfo.vue'
+import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/supabase/supabase'
 import { useToast } from 'vue-toastification'
-import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
 const toast = useToast()
 const route = useRoute()
+const router = useRouter()
 
 const data = ref([])
 const loading = ref(true)
@@ -35,9 +36,8 @@ const getData = async () => {
         data.value = workout
         loading.value = false
     } catch (error) {
-        toast.error(`${error.message}`, {
-            timeout: 2500,
-        })
+        if (error.code === 'PGRST116') return router.push({ name: 'not-found' })
+        toast.error(`${error.message}`, { timeout: 2500 })
     }
 }
 

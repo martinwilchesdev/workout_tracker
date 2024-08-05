@@ -3,6 +3,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import WorkoutCard from '@/components/WorkoutCard.vue'
 import { supabase } from '@/supabase/supabase'
 import { onMounted, ref } from 'vue'
+import store from '@/stores/index'
 
 const data = ref([])
 const loading = ref(true)
@@ -37,6 +38,7 @@ onMounted(async () => {
                 <RouterLink
                     class="mt-3 p-2 text-sm bg-at-light-green text-white rounded-sm duration-200 border-solid border-2 border-transparent hover:bg-white hover:text-at-light-green hover:border-at-light-green"
                     :to="{ name: 'create' }"
+                    v-if="store.state.user"
                     >Create Workout</RouterLink
                 >
             </div>

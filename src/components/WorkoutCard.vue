@@ -14,7 +14,10 @@ const props = defineProps({
         class="flex flex-col items-center bg-light-grey p-8 shadow-md cursor-pointer"
         v-for="(workout, index) in props.workouts"
         :key="index"
-        :to="{ name: 'workout-view', params: { id: workout.id } }"
+        :to="{
+            name: 'workout-view',
+            params: { id: workout.id },
+        }"
     >
         <!-- Cardio Image -->
         <img
