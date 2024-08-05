@@ -18,8 +18,8 @@ const toast = useToast()
 const isEdit = ref(false)
 
 const editExercise = () => {
-    isEdit.value = !isEdit.value
-    if (isEdit.value === false) emit('getData')
+    emit('getData')
+    setTimeout(() => (isEdit.value = !isEdit.value), 200)
 }
 
 const deleteWorkout = async () => {
